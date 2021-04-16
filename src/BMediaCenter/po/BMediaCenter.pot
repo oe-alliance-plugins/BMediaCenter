@@ -1,21 +1,21 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: BMediaCenter\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-16 19:04+0430\n"
-"PO-Revision-Date: 2014-10-29 13:01+0100\n"
-"Last-Translator: OEA\n"
-"Language-Team: french\n"
-"Language: fr\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-Basepath: C:\\Users\\Benny\\Documents\\HDMU\\git\\plugins\\Extensions\\BMediaCenter\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.10\n"
-"X-Poedit-SearchPath-0: C:\\Users\\Benny\\Documents\\HDMU\\git\\plugins\\Extensions\\BMediaCenter\n"
 
 msgid ""
 "\n"
@@ -26,15 +26,11 @@ msgid ""
 "\n"
 "Artist: "
 msgstr ""
-"\n"
-"Artiste: "
 
 msgid ""
 "\n"
 "Comment: "
 msgstr ""
-"\n"
-"Commentaire: "
 
 msgid ""
 "\n"
@@ -45,8 +41,6 @@ msgid ""
 "\n"
 "Year: "
 msgstr ""
-"\n"
-"Année:"
 
 #, python-format
 msgid "%s"
@@ -67,16 +61,7 @@ msgstr ""
 msgid "Ambient"
 msgstr ""
 
-#, fuzzy
 msgid "Artist"
-msgstr ""
-"\n"
-"Artiste: "
-
-msgid "Audio Player"
-msgstr ""
-
-msgid "Audioplayer Settings"
 msgstr ""
 
 msgid "Back"
@@ -92,7 +77,7 @@ msgid "Blues"
 msgstr ""
 
 msgid "Cache Thumbnails"
-msgstr "Cache des miniatures"
+msgstr ""
 
 msgid "Cancel"
 msgstr ""
@@ -104,7 +89,7 @@ msgid "Chillout"
 msgstr ""
 
 msgid "City"
-msgstr "Ville"
+msgstr ""
 
 msgid "Classic"
 msgstr ""
@@ -118,28 +103,27 @@ msgstr ""
 msgid "DVD Player"
 msgstr ""
 
-#, fuzzy
 msgid "Delete"
-msgstr "Effacement a échoué!"
+msgstr ""
 
 msgid "Delete failed!"
-msgstr "Effacement a échoué!"
+msgstr ""
 
 msgid "Directory"
-msgstr "Répertoire"
+msgstr ""
 
 msgid "Directory:"
-msgstr "Répertoire:"
+msgstr ""
 
 #, python-format
 msgid "Do you really want to delete %s?"
-msgstr "Voulez-vous vraiment effacer %s?"
+msgstr ""
 
 msgid "Do you really want to delete this directory and it's content ?"
-msgstr "Voulez-vous vraiment effacer ce répertoire et son contenu?"
+msgstr ""
 
 msgid "Do you really want to delete this file ?"
-msgstr "Voulez-vous vraiment effacer ce ficher?"
+msgstr ""
 
 msgid "Edit"
 msgstr ""
@@ -149,63 +133,45 @@ msgid ""
 "Error loading filelist into server %s:\n"
 "%s"
 msgstr ""
-"Erreur en chargeant la liste des fichiers dans le serveur %s:\n"
-"%s"
 
 #, python-format
 msgid ""
 "Error loading playlist %s into server %s:\n"
 "%s"
 msgstr ""
-"Erreur en chargeant la liste de lecture %s dans le serveur %s:\n"
-"%s"
 
 #, python-format
 msgid ""
 "Error loading playlist into server %s:\n"
 "%s"
 msgstr ""
-"Erreur en chargeant la liste de lecture dans le serveur %s:\n"
-"%s"
 
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Error switching directory:\n"
 "%s"
 msgstr ""
-"Erreur avec le serveur VLC:\n"
-"%s"
 
 #, python-format
 msgid ""
 "Error updating file- and playlist from server %s:\n"
 "%s"
 msgstr ""
-"Erreur en chargeant la liste des fichiers et de lecture du serveur %s:\n"
-"%s"
 
 #, python-format
 msgid ""
 "Error updating filelist from server %s:\n"
 "%s"
 msgstr ""
-"Erreur en mettant à jour la liste des fichiers du serveur %s:\n"
-"%s"
 
 #, python-format
 msgid ""
 "Error with VLC server:\n"
 "%s"
 msgstr ""
-"Erreur avec le serveur VLC:\n"
-"%s"
-
-#, fuzzy
-msgid "Favorite Folders"
-msgstr "Favoris"
 
 msgid "Favorites"
-msgstr "Favoris"
+msgstr ""
 
 #, python-format
 msgid "Feels like %s"
@@ -226,25 +192,18 @@ msgstr ""
 msgid "Hits"
 msgstr ""
 
-msgid "Home"
-msgstr ""
-
 #, python-format
 msgid "Humidity: %s %%"
-msgstr ""
-
-msgid "InfoBar"
 msgstr ""
 
 msgid "Installing Service"
 msgstr ""
 
 msgid "List of Storage Devices"
-msgstr "Liste des périphériques de stockages"
+msgstr ""
 
-#, fuzzy
 msgid "List of storage Devices"
-msgstr "Liste des périphériques de stockages"
+msgstr ""
 
 msgid "Loading information..."
 msgstr ""
@@ -253,7 +212,7 @@ msgid "Location code"
 msgstr ""
 
 msgid "Lyrics"
-msgstr "Paroles"
+msgstr ""
 
 msgid "MSN location search result"
 msgstr ""
@@ -261,31 +220,20 @@ msgstr ""
 msgid "Media Center"
 msgstr ""
 
-msgid "Media Center - VLC Favorites"
-msgstr ""
-
-msgid "Media Center - VLC Player - Serverlist"
-msgstr ""
-
 msgid "Moviemusic"
 msgstr ""
 
-#, fuzzy
 msgid "Music"
-msgstr "Ma Musique"
-
-#, fuzzy
-msgid "Music Playlist"
-msgstr "Sauvegarder la liste de lecture"
+msgstr ""
 
 msgid "My Music"
-msgstr "Ma Musique"
+msgstr ""
 
 msgid "My Pictures"
-msgstr "Mes Images"
+msgstr ""
 
 msgid "My Videos"
-msgstr "Mes Vidéos"
+msgstr ""
 
 msgid "Name"
 msgstr ""
@@ -299,7 +247,7 @@ msgid ""
 msgstr ""
 
 msgid "No lyrics found"
-msgstr "Aucune parole trouvée"
+msgstr ""
 
 msgid "OK"
 msgstr ""
@@ -315,18 +263,13 @@ msgstr ""
 msgid "Oldies"
 msgstr ""
 
-#, fuzzy
 msgid "Parent Directory"
-msgstr "Répertoire"
-
-#, fuzzy
-msgid "Parent directory"
-msgstr "effacer répertoire"
-
-msgid "Party"
 msgstr ""
 
-msgid "Pic Viewer"
+msgid "Parent directory"
+msgstr ""
+
+msgid "Party"
 msgstr ""
 
 msgid "Play DVD as:"
@@ -339,37 +282,35 @@ msgid "Please enter a valid location code for the city."
 msgstr ""
 
 msgid "Please enter filename (empty = use current date)"
-msgstr "Merci d'entrer un nom de fichier (vide = utiliser les données courantes)"
+msgstr ""
 
 msgid "Please select a playlist to delete..."
-msgstr "Merci de sélectionner une liste de lecture a effacer..."
+msgstr ""
 
 msgid "Please select a playlist..."
-msgstr "Merci de choisir une liste de lecture..."
+msgstr ""
 
 msgid "Please wait whilst feeds state is checked."
 msgstr ""
 
-#, fuzzy
 msgid "Really delete this Entry?"
-msgstr "Voulez-vous vraiment effacer ce serveur?"
+msgstr ""
 
 msgid "Really delete this Server?"
-msgstr "Voulez-vous vraiment effacer ce serveur?"
+msgstr ""
 
-#, fuzzy
 msgid "Really delete this WeatherPlugin Entry?"
-msgstr "Voulez-vous vraiment effacer ce favori?"
+msgstr ""
 
 msgid "Really delete this favorite?"
-msgstr "Voulez-vous vraiment effacer ce favori?"
+msgstr ""
 
 msgid "Reggae"
 msgstr ""
 
 #, python-format
 msgid "Response -> lyrics for: %s (%s)"
-msgstr "Réponse -> Parole pour %s (%s)"
+msgstr ""
 
 msgid "Rock"
 msgstr ""
@@ -378,21 +319,19 @@ msgid "Rundfunk"
 msgstr ""
 
 msgid "Save Playlist"
-msgstr "Sauvegarder la liste de lecture"
+msgstr ""
 
 msgid "Scaling Mode"
 msgstr ""
 
-#, fuzzy
 msgid "Screensaver Enable:"
-msgstr "Interval de l'économiseur d'écran"
+msgstr ""
 
 msgid "Screensaver Interval"
-msgstr "Interval de l'économiseur d'écran"
+msgstr ""
 
-#, fuzzy
 msgid "Screensaver Style:"
-msgstr "Interval de l'économiseur d'écran"
+msgstr ""
 
 msgid "Search Code"
 msgstr ""
@@ -401,7 +340,7 @@ msgid "Select music"
 msgstr ""
 
 msgid "Settings"
-msgstr "Paramètres"
+msgstr ""
 
 msgid "Show MC in Extension-Menu"
 msgstr ""
@@ -410,7 +349,7 @@ msgid "Show MC in Main-Menu"
 msgstr ""
 
 msgid "Slideshow Interval (sec.)"
-msgstr "Interval du diaporama (sec.)"
+msgstr ""
 
 msgid "Smooth"
 msgstr ""
@@ -429,16 +368,16 @@ msgstr ""
 
 #, python-format
 msgid "This Dreambox can't decode %s video streams!"
-msgstr "Ce récepteur ne sait pas décoder un stream vidéo %s!"
+msgstr ""
 
 msgid "Thumbnail Height"
-msgstr "Hauteur des vignettes"
+msgstr ""
 
 msgid "Thumbnail Width"
-msgstr "Largeur des vignettes"
+msgstr ""
 
 msgid "Title: "
-msgstr "Titre:"
+msgstr ""
 
 msgid "UPNP Enabled"
 msgstr ""
@@ -446,14 +385,8 @@ msgstr ""
 msgid "VLC Player"
 msgstr ""
 
-msgid "VLC Player - Medialist"
-msgstr ""
-
-msgid "Video Player"
-msgstr ""
-
 msgid "Weather Info"
-msgstr "Infos Méteo"
+msgstr ""
 
 msgid "WeatherPlugin: Edit Entry"
 msgstr ""
@@ -468,10 +401,10 @@ msgid "Worldmusic"
 msgstr ""
 
 msgid "You have to close playlist before you can go to the next song while playing from file browser."
-msgstr "Vous devez fermer la liste de lecture avant d'aller à la chanson suivante lorsque vous la lisez depuis le gestionnaire de fichier."
+msgstr ""
 
 msgid "You have to close playlist before you can go to the previous song while playing from file browser."
-msgstr "Vous devez fermer la liste de lecture avant d'aller à la chanson précédente lorsque vous la lisez depuis le gestionnaire de fichier."
+msgstr ""
 
 msgid "You need to enter a valid city name before you can search for the location code."
 msgstr ""
@@ -487,16 +420,16 @@ msgid ""
 msgstr ""
 
 msgid "add all files in directory to playlist"
-msgstr "ajouter tous les fichiers d'un répertoire dans la liste de lecture"
+msgstr ""
 
 msgid "add directory to playlist"
-msgstr "ajouter le répertoire à la liste de lecture"
+msgstr ""
 
 msgid "add file to playlist"
-msgstr "ajouter un fichier à la liste de lecture"
+msgstr ""
 
 msgid "add file to playlist and play"
-msgstr "ajouter un fichier à la liste de lecture et le lire"
+msgstr ""
 
 msgid "alphabet"
 msgstr ""
@@ -505,22 +438,22 @@ msgid "alphabet backward"
 msgstr ""
 
 msgid "backgroundcolor"
-msgstr "Couleur de fond"
+msgstr ""
 
 msgid "better"
-msgstr "meilleur"
+msgstr ""
 
 msgid "black"
-msgstr "noir"
+msgstr ""
 
 msgid "blue"
-msgstr "bleu"
+msgstr ""
 
 msgid "by Exif"
 msgstr ""
 
 msgid "clear playlist"
-msgstr "Vider la liste de lecture"
+msgstr ""
 
 msgid "date"
 msgstr ""
@@ -532,31 +465,31 @@ msgid "default"
 msgstr ""
 
 msgid "delete directory"
-msgstr "effacer répertoire"
+msgstr ""
 
 msgid "delete file"
-msgstr "effacer fichier"
+msgstr ""
 
 msgid "delete from playlist"
-msgstr "effacer de la liste de lecture"
+msgstr ""
 
 msgid "delete saved playlist"
-msgstr "effacer la liste de lecture sauvegardée"
+msgstr ""
 
 msgid "filename"
-msgstr "nom du fichier"
+msgstr ""
 
 msgid "green"
-msgstr "vert"
+msgstr ""
 
 msgid "imperial system"
 msgstr ""
 
 msgid "load playlist"
-msgstr "Charge une liste de lecture"
+msgstr ""
 
 msgid "manual"
-msgstr "manuel"
+msgstr ""
 
 msgid "metric system"
 msgstr ""
@@ -565,29 +498,28 @@ msgid "none"
 msgstr ""
 
 msgid "nothing connected"
-msgstr "rien de connecté"
+msgstr ""
 
 msgid "please wait, loading picture..."
-msgstr "Merci de patienter, chargement des images..."
+msgstr ""
 
-#, fuzzy
 msgid "please wait..."
-msgstr "Merci de patienter, chargement des images..."
+msgstr ""
 
 msgid "red"
-msgstr "rouge"
+msgstr ""
 
 msgid "save playlist"
-msgstr "Sauvegarder la liste de lecture"
+msgstr ""
 
 msgid "show Infoline"
-msgstr "afficher la ligne info"
+msgstr ""
 
 msgid "shuffle"
 msgstr ""
 
 msgid "simple"
-msgstr "simple"
+msgstr ""
 
 msgid "size"
 msgstr ""
@@ -599,7 +531,40 @@ msgid "slide picture in loop"
 msgstr ""
 
 msgid "textcolor"
-msgstr "couleur du texte"
+msgstr ""
 
 msgid "yellow"
-msgstr "jaune"
+msgstr ""
+
+msgid "Audio Player"
+msgstr ""
+
+msgid "Audioplayer Settings"
+msgstr ""
+
+msgid "Favorite Folders"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "InfoBar"
+msgstr ""
+
+msgid "Media Center - VLC Favorites"
+msgstr ""
+
+msgid "Media Center - VLC Player - Serverlist"
+msgstr ""
+
+msgid "Music Playlist"
+msgstr ""
+
+msgid "Pic Viewer"
+msgstr ""
+
+msgid "VLC Player - Medialist"
+msgstr ""
+
+msgid "Video Player"
+msgstr ""
