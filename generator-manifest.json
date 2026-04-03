@@ -1,0 +1,18 @@
+{
+  "branch": "main",
+  "depends_recipe": "",
+  "description_control": "Make your Receiver to a MediaCenter",
+  "description_recipe": "Make your Receiver to a MediaCenter",
+  "history_source_dir": "bmediacenter",
+  "internal_package_name": "enigma2-plugin-extensions-bmediacenter",
+  "module_dir_name": "BMediaCenter",
+  "output_subdir": "bmediacenter",
+  "package_name": "enigma2-plugin-extensions-bmediacenter",
+  "plugin_src_rel": "bmediacenter",
+  "python_package": "BMediaCenter",
+  "rdepends_recipe": "",
+  "replaces": "",
+  "repo_name": "bmediacenter",
+  "rrecommends": "",
+  "rreplaces": ""
+}

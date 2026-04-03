@@ -1,6 +1,0 @@
-Package: enigma2-plugin-extensions-bmediacenter
-Version: 2.0.0
-Description: Make your Receiver to a MediaCenter
-Section: multimedia
-Maintainer: homey mod by bonkel and jbleyel
-Depends: enigma2, libshowiframe0, python-tmdbsimple
