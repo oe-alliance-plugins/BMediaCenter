@@ -21,7 +21,7 @@ try:
 	from Plugins.Extensions.VlcPlayer.VlcServerConfig import vlcServerConfig, VlcServerConfigScreen
 	from Plugins.Extensions.VlcPlayer.VlcServerList import VlcServerList
 	from Plugins.Extensions.VlcPlayer.VlcPlayer import VlcPlayer
-except Exception as e:
+except Exception:
 	print("Media Center: Import VLC Stuff failed")
 
 
@@ -218,7 +218,7 @@ class MC_VLCMedialist(Screen):
 		try:
 			for id in self.playlistIds:
 				self.server.delete(id)
-		except Exception as e:
+		except Exception:
 			pass
 
 	def __onShown(self):
@@ -547,17 +547,17 @@ class MC_VLCFavoriteFolders(Screen):
 		for i in range(0, 100):
 			try:
 				del (config.plugins.mc_vlc.folders[i])
-			except Exception as e:
+			except Exception:
 				print("MC_ResetAll-DelaFavFailed")
 		config.plugins.mc_vlc.folders.save()
 		try:
 			del (config.plugins.mc_vlc.folders)
-		except Exception as e:
+		except Exception:
 			print("MC_DELFAVFOLDERS-FAILED")
 			#self.session.open(MessageBox,("Error: %s\n") % (Exception),  MessageBox.TYPE_INFO)
 		try:
 			del (config.plugins.mc_vlc.folders[0])
-		except Exception as e:
+		except Exception:
 			#self.session.open(MessageBox,("Error: %s\n") % (Exception),  MessageBox.TYPE_INFO)
 			print("MC_DELFAV0-FAILED")
 
@@ -624,7 +624,7 @@ class FavoriteFolderAdd(ConfigListScreen, Screen):
 	def keyCancel(self):
 		try:
 			del (config.plugins.mc_vlc.folders[self.id])
-		except Exception as e:
+		except Exception:
 			print("MC_Settings_DelaFavFailed")
 		self.close(0)
 #------------------------------------------------------------------------------------------

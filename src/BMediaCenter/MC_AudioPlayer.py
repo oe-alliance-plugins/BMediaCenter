@@ -203,14 +203,14 @@ class MC_AudioPlayer(Screen, HelpableScreen, InfoBarSeek):
 				config.av.downmix_ac3.value = True
 				config.av.downmix_ac3.save()
 				self.ac3ON = True
-		except Exception as e:
+		except Exception:
 			print("Media Center: no ac3")
 		self["play"] = Pixmap()
 		self["green"] = Pixmap()
 		self["screensaver"] = MediaPixmap()
 		self.PlaySingle = 0
 		MC_AudioPlayer.STATE = "NONE"
-		lstdir = []
+		# lstdir = []
 		self.playlist = PlayList()
 		MC_AudioPlayer.playlistplay = 0
 		MC_AudioPlayer.currPlaying = -1
@@ -411,7 +411,7 @@ class MC_AudioPlayer(Screen, HelpableScreen, InfoBarSeek):
 			return
 
 	def PlayService(self):
-		playlistplay = 0
+		MC_AudioPlayer.playlistplay = 0
 		self.JpgTimer.stop()
 		self.session.nav.playService(self["filelist"].getServiceRef())
 		MC_AudioPlayer.STATE = "PLAY"
@@ -425,8 +425,8 @@ class MC_AudioPlayer(Screen, HelpableScreen, InfoBarSeek):
 
 	def PlayServicepls(self):
 		MC_AudioPlayer.playlistplay = 1
-		x = self.playlist.getCurrentIndex()
-		x = len(self.playlist)
+		x = self.playlist.getCurrentIndex()  # noqa: F841
+		x = len(self.playlist)  # noqa: F841
 		self.session.nav.playService(self.playlist.getServiceRefList()[self.playlist.getCurrentIndex()])
 		MC_AudioPlayer.STATE = "PLAY"
 		self.FileInfoTimer.start(2000, True)
@@ -681,12 +681,12 @@ class MC_WebRadio(Screen, HelpableScreen):
 				config.av.downmix_ac3.value = True
 				config.av.downmix_ac3.save()
 				self.ac3ON = True
-		except Exception as e:
+		except Exception:
 			print("Media Center: no ac3")
 		self["play"] = Pixmap()
 		self["screensaver"] = MediaPixmap()
 		MC_AudioPlayer.STATE = "NONE"
-		lstdir = []
+		# lstdir = []
 		self.playlist = PlayList()
 		MC_AudioPlayer.playlistplay = 0
 		MC_AudioPlayer.currPlaying = -1
@@ -722,7 +722,7 @@ class MC_WebRadio(Screen, HelpableScreen):
 			currDir = "/"
 		self.filelist = []
 		self["filelist"] = []
-		inhibitDirs = ["/bin", "/boot", "/dev", "/dev.static", "/etc", "/lib", "/proc", "/ram", "/root", "/sbin", "/sys", "/tmp", "/usr", "/var"]
+		# inhibitDirs = ["/bin", "/boot", "/dev", "/dev.static", "/etc", "/lib", "/proc", "/ram", "/root", "/sbin", "/sys", "/tmp", "/usr", "/var"]
 		self.filelist = FileList(currDir, useServiceRef=True, showDirectories=False, showFiles=True, matchingPattern=r"(?i)^.*\.(m3u|pls|e2pls)", additionalExtensions="4098:m3u 4098:e2pls 4098:pls")
 
 		self["filelist"] = self.filelist
@@ -820,8 +820,8 @@ class MC_WebRadio(Screen, HelpableScreen):
 
 	def PlayServicepls(self):
 		MC_AudioPlayer.playlistplay = 1
-		x = self.playlist.getCurrentIndex()
-		x = len(self.playlist)
+		x = self.playlist.getCurrentIndex()  # noqa: F841
+		x = len(self.playlist)  # noqa: F841
 		self.session.nav.playService(self.playlist.getServiceRefList()[self.playlist.getCurrentIndex()])
 		MC_AudioPlayer.STATE = "PLAY"
 		self.FileInfoTimer.start(2000, True)
@@ -1180,10 +1180,10 @@ class MC_AudioPlaylist(Screen, InfoBarSeek):
 	def KeyOK(self):
 		if len(self.playlist.getServiceRefList()):
 			print(self.playlist.getSelectionIndex())
-			x = self.playlist.getSelectionIndex()
+			x = self.playlist.getSelectionIndex()  # noqa: F841
 			self.playlist.setCurrentPlaying(self.playlist.getSelectionIndex())
-			x = self.playlist.getCurrentIndex()
-			x = len(self.playlist)
+			x = self.playlist.getCurrentIndex()  # noqa: F841
+			# x = len(self.playlist)
 			self.PlayService()
 
 	def PlayPause(self):
@@ -1351,7 +1351,7 @@ class MC_AudioPlaylist(Screen, InfoBarSeek):
 		if confirmed:
 			try:
 				remove(self.delname)
-			except OSError as e:
+			except OSError:
 				self.session.open(MessageBox, _("Delete failed!"), MessageBox.TYPE_ERROR)
 
 	def addPlaylistParser(self, parser, extension):
