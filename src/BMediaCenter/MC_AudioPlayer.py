@@ -167,12 +167,12 @@ class PlayList(MenuList):
 #		return MC_AudioPlayer.currPlaying
 
 	def getCurrentEvent(self):
-		l = self.l.getCurrentSelection()
-		return l and self.serviceHandler.info(l[0]).getEvent(l[0])
+		items = self.l.getCurrentSelection()
+		return items and self.serviceHandler.info(items[0]).getEvent(items[0])
 
 	def getCurrent(self):
-		l = self.l.getCurrentSelection()
-		return l and l[0]
+		items = self.l.getCurrentSelection()
+		return items and items[0]
 
 	def getServiceRefList(self):
 		return [x[0] for x in self.list]
