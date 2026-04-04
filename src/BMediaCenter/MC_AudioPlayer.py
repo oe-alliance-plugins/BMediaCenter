@@ -8,7 +8,7 @@ from twisted.internet.reactor import callInThread
 from urllib.parse import quote
 from xml.etree.ElementTree import fromstring as cet_fromstring
 
-from enigma import eTimer, iServiceInformation, iPlayableService, ePicLoad, RT_VALIGN_CENTER, RT_HALIGN_LEFT, RT_HALIGN_RIGHT, RT_HALIGN_CENTER, gFont, eListbox, ePoint, eListboxPythonMultiContent, eServiceCenter, getDesktop
+from enigma import eTimer, iServiceInformation, iPlayableService, ePicLoad, RT_VALIGN_CENTER, gFont, eListbox, eListboxPythonMultiContent, eServiceCenter, getDesktop
 from Components.Label import Label
 from Components.Button import Button
 from Components.Pixmap import Pixmap

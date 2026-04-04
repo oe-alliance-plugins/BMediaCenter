@@ -1,4 +1,3 @@
-from __future__ import print_function
 from enigma import ePicLoad, eTimer, getDesktop, iPlayableService, eServiceReference
 from Components.Label import Label
 from Components.Button import Button
@@ -8,7 +7,7 @@ from Components.AVSwitch import AVSwitch
 from Components.ActionMap import ActionMap, HelpableActionMap
 from Components.ServiceEventTracker import ServiceEventTracker, InfoBarBase
 from Components.Pixmap import Pixmap, MovingPixmap
-from Components.config import config, ConfigSubsection, ConfigInteger, ConfigSelection, ConfigEnableDisable, ConfigText, KEY_LEFT, KEY_RIGHT, KEY_0, getConfigListEntry
+from Components.config import config, ConfigSubsection, ConfigInteger, ConfigSelection, ConfigEnableDisable, ConfigText
 from Screens.Screen import Screen
 from Screens.Setup import Setup
 from Screens.MessageBox import MessageBox
