@@ -23,7 +23,7 @@ config.plugins.mc_global.vfd = ConfigSelection(default='off', choices=[('off', '
 config.plugins.mc_globalsettings.upnp_enable = ConfigYesNo(default=False)
 loadSkin("/usr/lib/enigma2/python/Plugins/Extensions/BMediaCenter/skins/defaultHD/skin.xml")
 try:
-	from Plugins.Extensions.DVDPlayer.plugin import *
+	from Plugins.Extensions.DVDPlayer.plugin import DVDPlayer
 	dvdplayer = True
 except ImportError:
 	print("Media Center: Import DVDPlayer failed")
