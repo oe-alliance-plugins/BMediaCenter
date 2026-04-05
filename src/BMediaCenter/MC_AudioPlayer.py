@@ -1,4 +1,4 @@
-from os import system, remove, remove, listdir, walk
+from os import system, remove, listdir, walk
 from os.path import split, dirname
 from re import sub
 from requests import get, exceptions
