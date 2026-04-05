@@ -2,7 +2,6 @@ from os import system, remove, listdir, walk
 from os.path import split, dirname
 from re import sub
 from requests import get, exceptions
-from six import ensure_str
 from time import strftime
 from twisted.internet.reactor import callInThread
 from urllib.parse import quote
@@ -68,6 +67,12 @@ STATE_STOP = 2
 STATE_REWIND = 3
 STATE_FORWARD = 4
 STATE_NONE = 5
+
+
+def ensure_str(s):
+	if isinstance(s, bytes):
+		return s.decode("utf-8")
+	return s
 
 
 def getEncodedString(value):

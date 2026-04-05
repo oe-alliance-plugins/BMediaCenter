@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 from os import mkdir
-from six import ensure_str
 try:
 	from Components.SystemInfo import BoxInfo
 	DISPLAYMODEL = BoxInfo.getItem("displaymodel")
@@ -22,6 +21,12 @@ from Screens.Standby import TryQuitMainloop
 from Tools.Directories import fileExists
 from .__init__ import _  # for localized messages
 mcpath = "/usr/lib/enigma2/python/Plugins/Extensions/BMediaCenter/skins/defaultHD/images/"
+
+
+def ensure_str(s):
+	if isinstance(s, bytes):
+		return s.decode("utf-8")
+	return s
 
 
 class MC_Settings(Screen):
