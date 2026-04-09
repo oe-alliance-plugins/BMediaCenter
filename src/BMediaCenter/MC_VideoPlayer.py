@@ -24,6 +24,7 @@ from Tools.Directories import resolveFilename, pathExists, fileExists, SCOPE_MED
 from Screens.MessageBox import MessageBox
 from twisted.internet.reactor import callInThread
 from .GlobalFunctions import shortname, Showiframe
+from .__init__ import _  # for localized messages
 try:
 	from Tools.EITFile import EITFile
 except ImportError:
@@ -49,7 +50,7 @@ COVERTMP = "/tmp/bmc.jpg"
 INFOTMP = "/tmp/bmc.txt"
 
 
-class TMDB():
+class TMDB:
 	def __init__(self):
 		self.coverSize = config.plugins.mc_vp.themoviedb_coversize.value
 		self.lang = language.getLanguage().split("_", 1)[0]
@@ -77,7 +78,7 @@ class TMDB():
 				f.write(response.content)
 			getCoverCallback()
 		except exceptions.RequestException as error:
-			print("[TMDb] Download cover Error: %s" % str(error))
+			print(f"[TMDb] Download cover Error: {str(error)}")
 
 	def tmdbGetCover(self, coverUrl, getCoverCallback):
 		callInThread(self.threadDownloadPage, coverUrl, getCoverCallback)
@@ -87,7 +88,7 @@ class TMDB():
 			movie = tmdb.Movies(int(movieID))
 			callback(movie.info(language=self.lang))
 		except Exception as error:
-			print("[TMDb] Movies Error: %s" % str(error))
+			print(f"[TMDb] Movies Error: {str(error)}")
 
 	def tmdbSearch(self, fileName, serviceref, session, selectCallback):
 		text = None
@@ -140,7 +141,7 @@ class TMDB():
 				coverUrl = ""
 				try:
 					coverPath = str(IDs['poster_path'])
-					coverUrl = "http://image.tmdb.org/t/p/%s/%s" % (self.coverSize, coverPath)
+					coverUrl = f"http://image.tmdb.org/t/p/{self.coverSize}/{coverPath}"
 				except Exception:
 					pass
 
@@ -149,7 +150,7 @@ class TMDB():
 						mediasubst = _("Movie")
 					else:
 						mediasubst = _("Series")
-					choice = "%s: %s (%s)" % (mediasubst, title, date)
+					choice = f"{mediasubst}: {title} ({date})"
 					res.append((choice, coverUrl, id, IDs, fileName.endswith('.ts')))
 
 			if len(res) > 1:
@@ -163,7 +164,7 @@ class TMDB():
 		except Exception as error:
 			import traceback
 			traceback.print_exc()
-			session.open(MessageBox, "[TMDb] Error: %s" % str(error), MessageBox.TYPE_ERROR, windowTitle="")
+			session.open(MessageBox, f"[TMDb] Error: {str(error)}", MessageBox.TYPE_ERROR, windowTitle="")
 
 
 class MoviePlayer(OrgMoviePlayer):
@@ -323,9 +324,9 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 
 				elif self.filename.endswith('.vob'):
 					path = self.filename.replace('.vob', '')
-					print('path: %s' % path)
+					print(f'path: {path}')
 					for fdelete in glob(path + '.*'):
-						print('fdelete: %s' % fdelete)
+						print(f'fdelete: {fdelete}')
 						remove(fdelete)
 
 				else:
@@ -343,7 +344,7 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 		if self["filelist"].canDescent():
 			return
 		self.movieInfo = None
-		self.coverFilename = "%s.jpg" % splitext(self["filelist"].getFilename())[0]
+		self.coverFilename = "{}.jpg".format(splitext(self["filelist"].getFilename())[0])
 		self.tmdbSearch(self["filelist"].getFilename(), self["filelist"].getServiceRef(), self.session, self.showMovieInfoCallback)
 
 	def showMovieInfoCallback(self, answer):
@@ -360,11 +361,11 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 	def keySave(self):
 		if self.movieInfo:
 			try:
-				movieInfoFile = "%seit" % self.coverFilename[:-3]
+				movieInfoFile = f"{self.coverFilename[:-3]}eit"
 				genres = self.movieInfo.get("genres", [])
 				if genres:
 					genres = [genre["name"] for genre in genres]
-				overview = "%s\n\n%s\n%s\n" % (self.movieInfo["overview"], ",".join(genres), self.movieInfo["release_date"])
+				overview = "{}\n\n{}\n{}\n".format(self.movieInfo["overview"], ",".join(genres), self.movieInfo["release_date"])
 				if EITFile and not self.isTS:
 					runtime = 60 * int(self.movieInfo.get("runtime", "0"))
 					title = self.movieInfo.get("title", "")
@@ -374,7 +375,7 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 				else:
 					with open(INFOTMP, "w", encoding="utf-8") as f:
 						f.write(overview)
-					movieInfoFile = "%stxt" % self.coverFilename[:-3]
+					movieInfoFile = f"{self.coverFilename[:-3]}txt"
 				move(INFOTMP, movieInfoFile)
 			except Exception:
 				import traceback
@@ -384,12 +385,12 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 
 	def showMovieInfoPanel(self, movieInfo):
 		self.movieInfo = movieInfo
-		details = "%s|%s\n" % (_("Overview"), self.movieInfo["overview"])
+		details = "{}|{}\n".format(_("Overview"), self.movieInfo["overview"])
 		details += "\n"
 		genres = self.movieInfo.get("genres", [])
 		if genres:
 			genres = [genre["name"] for genre in genres]
-		details += "%s|%s\n" % (_("Genres"), ",".join(genres))
+		details += "{}|{}\n".format(_("Genres"), ",".join(genres))
 		self["moviedetails"].setText(details)
 		self["moviedetails"].show()
 		self["movieinfoactions"].setEnabled(True)
@@ -399,12 +400,12 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 		self["moviedetailsbg"].setText("_")
 		if self.isTS:
 			self["key_green"].setText(_("Save as TXT"))
-			movieInfoTXTFile = "%stxt" % self.coverFilename[:-3]
+			movieInfoTXTFile = f"{self.coverFilename[:-3]}txt"
 			if exists(movieInfoTXTFile):
 				self["key_green"].setText(_("Overwrite TXT"))
 		else:
 			self["key_green"].setText(_("Save as EIT"))
-			movieInfoFile = "%seit" % self.coverFilename[:-3]
+			movieInfoFile = f"{self.coverFilename[:-3]}eit"
 			if exists(movieInfoFile):
 				self["key_green"].setText("Overwrite EIT")
 		self["key_yellow"].setText("")
@@ -432,7 +433,7 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 				self.session.open(DVD.DVDPlayer, dvd_filelist=[filepath])
 				return
 		except Exception as e:
-			print("DVD Player error: %s" % str(e))
+			print(f"DVD Player error: {str(e)}")
 		if self.filelist.canDescent():
 			self.filelist.descent()
 		else:
@@ -465,7 +466,7 @@ class MC_VideoPlayer(Screen, HelpableScreen, TMDB):
 #		return
 
 	def refreshList(self):
-		self.filelist.setSortBy("0.0,%s" % config.plugins.mc_vp_sortmode.value)
+		self.filelist.setSortBy(f"0.0,{config.plugins.mc_vp_sortmode.value}")
 		self.filelist.refresh()
 
 	def keySettings(self):

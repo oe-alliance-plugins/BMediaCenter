@@ -1,4 +1,3 @@
-from __future__ import print_function
 from pyexpat import ExpatError
 from enigma import eServiceReference, iPlayableService, eServiceCenter
 from Components.Label import Label
@@ -11,6 +10,7 @@ from Components.ActionMap import ActionMap, NumberActionMap
 from Components.ServiceEventTracker import ServiceEventTracker
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
+from .__init__ import _  # for localized messages
 
 path = "/usr/lib/enigma2/python/Plugins/Extensions/BMediaCenter/"
 
@@ -235,8 +235,7 @@ class MC_VLCMedialist(Screen):
 				self.switchToFileList()
 		except Exception as e:
 			self.session.open(
-				MessageBox, _("Error updating file- and playlist from server %s:\n%s" % (
-						self.server.getName(), e)
+				MessageBox, _(f"Error updating file- and playlist from server {self.server.getName()}:\n{e}"
 					), MessageBox.TYPE_ERROR)
 
 	def updatePlaylist(self):
@@ -258,8 +257,7 @@ class MC_VLCMedialist(Screen):
 			self.updateFilelist()
 		except Exception as e:
 			self.session.open(
-				MessageBox, _("Error updating filelist from server %s:\n%s" % (
-						self.server.getName(), e)
+				MessageBox, _(f"Error updating filelist from server {self.server.getName()}:\n{e}"
 					), MessageBox.TYPE_ERROR)
 
 	def KeyMenu(self):
@@ -296,7 +294,7 @@ class MC_VLCMedialist(Screen):
 		if media is not None:
 			medianame = media.split('/')
 			medianame = medianame[-1]
-			self["currentmedia"].setText(("%s") % (medianame))
+			self["currentmedia"].setText(f"{medianame}")
 			if media.lower().endswith(".m3u") or media.lower().endswith(".pls") or media.lower().endswith(".xspf"):
 				try:
 					id = self.server.loadPlaylist(media)
@@ -305,8 +303,7 @@ class MC_VLCMedialist(Screen):
 						self.updatePlaylist()
 				except Exception as e:
 					self.session.open(
-						MessageBox, _("Error loading playlist %s into server %s:\n%s" % (
-								media, self.server.getName(), e)
+						MessageBox, _(f"Error loading playlist {media} into server {self.server.getName()}:\n{e}"
 							), MessageBox.TYPE_ERROR)
 			elif media.lower().endswith(".iso"):
 				self.play("dvdsimple://" + media, "DVD")
@@ -329,14 +326,14 @@ class MC_VLCMedialist(Screen):
 			self.filename = self.filelist.getCurrent()[0][0]
 		try:
 			url = self.server.playFile(self.filename, DEFAULT_VIDEO_PID, DEFAULT_AUDIO_PID)
-			print("[VLC] url: %s" % url)
+			print(f"[VLC] url: {url}")
 		except Exception as e:
-			self.session.open(MessageBox, _("Error with VLC server:\n%s" % e), MessageBox.TYPE_ERROR)
+			self.session.open(MessageBox, _(f"Error with VLC server:\n{e}"), MessageBox.TYPE_ERROR)
 
 		if url is not None:
 			#self.session.open(MessageBox, _("OPEN URL:\n%s" % url), MessageBox.TYPE_INFO)
 			sref = eServiceReference(ENIGMA_SERVICE_ID, 0, url)
-			print("sref valid=%s" % sref.valid())
+			print(f"sref valid={sref.valid()}")
 			sref.setData(0, DEFAULT_VIDEO_PID)
 			sref.setData(1, DEFAULT_AUDIO_PID)
 			self.session.nav.stopService()
@@ -346,21 +343,19 @@ class MC_VLCMedialist(Screen):
 			if media is not None:
 				medianame = media.split('/')
 				medianame = medianame[-1]
-				self["currentmedia"].setText(("%s") % (medianame))
+				self["currentmedia"].setText(f"{medianame}")
 
 	def getFilesAndDirsCB(self, currentDirectory, regex):
 		try:
 			return self.server.getFilesAndDirs(currentDirectory, regex)
 		except ExpatError as e:
 			self.session.open(
-				MessageBox, _("Error loading playlist into server %s:\n%s" % (
-						self.server.getName(), e)
+				MessageBox, _(f"Error loading playlist into server {self.server.getName()}:\n{e}"
 					), MessageBox.TYPE_ERROR)
 			raise ExpatError
 		except Exception as e:
 			self.session.open(
-				MessageBox, _("Error loading filelist into server %s:\n%s" % (
-						self.server.getName(), e)
+				MessageBox, _(f"Error loading filelist into server {self.server.getName()}:\n{e}"
 					), MessageBox.TYPE_ERROR)
 		return None
 
@@ -369,13 +364,11 @@ class MC_VLCMedialist(Screen):
 			return self.server.getPlaylistEntries()
 		except ExpatError as e:
 			self.session.open(
-				MessageBox, _("Error loading playlist into server %s:\n%s" % (
-						self.server.getName(), e)
+				MessageBox, _(f"Error loading playlist into server {self.server.getName()}:\n{e}"
 					), MessageBox.TYPE_ERROR)
 		except Exception as e:
 			self.session.open(
-				MessageBox, _("Error loading playlist into server %s:\n%s" % (
-						self.server.getName(), e)
+				MessageBox, _(f"Error loading playlist into server {self.server.getName()}:\n{e}"
 					), MessageBox.TYPE_ERROR)
 		return None
 
@@ -412,7 +405,7 @@ class MC_VLCMedialist(Screen):
 			self.favname = config.plugins.mc_vlc.folders[self.curfavfolder].name.value
 			self.currDir = config.plugins.mc_vlc.folders[self.curfavfolder].basedir.value
 			self["currentdir"].setText("Folder: " + self.currDir)
-			self["currentmedia"].setText(("%s") % (self.favname))
+			self["currentmedia"].setText(f"{self.favname}")
 			self.changeDir(self.currDir)
 		else:
 			return
@@ -425,7 +418,7 @@ class MC_VLCMedialist(Screen):
 			self.favname = config.plugins.mc_vlc.folders[self.curfavfolder].name.value
 			self.currDir = config.plugins.mc_vlc.folders[self.curfavfolder].basedir.value
 			self["currentdir"].setText("Folder: " + self.currDir)
-			self["currentmedia"].setText(("%s") % (self.favname))
+			self["currentmedia"].setText(f"{self.favname}")
 			self.changeDir(self.currDir)
 
 	def JumpToFolder(self, jumpto=None):
@@ -439,12 +432,12 @@ class MC_VLCMedialist(Screen):
 		self.session.openWithCallback(self.JumpToFolder, MC_VLCFavoriteFolders)
 
 	def changeDir(self, dir):
-		print("[VLC] changeDir %s" % dir)
+		print(f"[VLC] changeDir {dir}")
 		try:
 			self.currentList.changeDirectory(dir)
 			self.updateFilelist()
 		except Exception as e:
-			self.session.open(MessageBox, _("Error switching directory:\n%s" % (e)), MessageBox.TYPE_ERROR)
+			self.session.open(MessageBox, _(f"Error switching directory:\n{e}"), MessageBox.TYPE_ERROR)
 
 	def visibility(self, force=1):
 		if self.isVisible is True:

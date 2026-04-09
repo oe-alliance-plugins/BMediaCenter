@@ -1,9 +1,9 @@
+from _ctypes import dlopen, dlsym, call_function
 from re import sub
 from Tools.Directories import fileExists
-from _ctypes import dlopen, dlsym, call_function
 
 
-class Showiframe():
+class Showiframe:
 	def __init__(self):
 		lib = "/usr/lib/"
 		if fileExists(lib + "libshowiframe.so.0.0.0"):
