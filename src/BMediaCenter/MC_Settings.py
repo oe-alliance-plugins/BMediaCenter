@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from os import mkdir
 try:
 	from Components.SystemInfo import BoxInfo

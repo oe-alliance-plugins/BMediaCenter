@@ -9,20 +9,22 @@ currentmcplatform = "sh4"
 config.plugins.mc_favorites = ConfigSubsection()
 config.plugins.mc_favorites.foldercount = ConfigInteger(0)
 config.plugins.mc_favorites.folders = ConfigSubList()
+
 config.plugins.mc_globalsettings = ConfigSubsection()
 config.plugins.mc_globalsettings.showinmainmenu = ConfigYesNo(default=True)
 config.plugins.mc_globalsettings.showinextmenu = ConfigYesNo(default=False)
 config.plugins.mc_globalsettings.currentversion = ConfigInteger(0, (0, 999))
 config.plugins.mc_globalsettings.currentplatform = ConfigText(default=currentmcplatform)
+
 config.plugins.mc_globalsettings.currentversion.value = currentmcversion
 config.plugins.mc_globalsettings.currentplatform.value = currentmcplatform
 
 PluginLanguageDomain = "BMediaCenter"
 PluginLanguagePath = "Extensions/BMediaCenter/locale"
-
-
 # Load Language
-def locale_init():
+
+
+def localeInit():
 	bindtextdomain(PluginLanguageDomain, resolveFilename(SCOPE_PLUGINS, PluginLanguagePath))
 
 
@@ -33,13 +35,12 @@ def _(txt):
 	return t
 
 
-locale_init()
-language.addCallback(locale_init)
-
+localeInit()
+language.addCallback(localeInit)
 # Favorite Folders
 
 
-def add_favorite_folders():
+def addFavoriteFolders():
 	i = len(config.plugins.mc_favorites.folders)
 	config.plugins.mc_favorites.folders.append(ConfigSubsection())
 	config.plugins.mc_favorites.folders[i].name = ConfigText("", False)
@@ -49,12 +50,14 @@ def add_favorite_folders():
 
 
 for i in range(0, config.plugins.mc_favorites.foldercount.value):
-	add_favorite_folders()
+	addFavoriteFolders()
 # VLC PLAYER CONFIG
 config.plugins.mc_vlc = ConfigSubsection()
 config.plugins.mc_vlc.lastDir = ConfigText(default="")
+
 config.plugins.mc_vlc.foldercount = ConfigInteger(0)
 config.plugins.mc_vlc.folders = ConfigSubList()
+
 config.plugins.mc_vlc.vcodec = ConfigSelection({"mp1v": "MPEG1", "mp2v": "MPEG2"}, "mp2v")
 config.plugins.mc_vlc.vb = ConfigInteger(1000, (100, 9999))
 config.plugins.mc_vlc.acodec = ConfigSelection({"mpga": "MP1", "mp2a": "MP2", "mp3": "MP3"}, "mp2a")
@@ -68,11 +71,12 @@ config.plugins.mc_vlc.aspect = ConfigSelection(["none", "16:9", "4:3"], "none")
 config.plugins.mc_vlc.soverlay = ConfigYesNo()
 config.plugins.mc_vlc.checkdvd = ConfigYesNo(True)
 config.plugins.mc_vlc.notranscode = ConfigYesNo(False)
+
 config.plugins.mc_vlc.servercount = ConfigInteger(0)
 config.plugins.mc_vlc.servers = ConfigSubList()
 
 
-def add_vlc_serverConfig():
+def addVlcServerConfig():
 	i = len(config.plugins.mc_vlc.servers)
 	config.plugins.mc_vlc.servers.append(ConfigSubsection())
 	config.plugins.mc_vlc.servers[i].host = ConfigText("", False)
@@ -83,6 +87,6 @@ def add_vlc_serverConfig():
 
 
 for i in range(0, config.plugins.mc_vlc.servercount.value):
-	add_vlc_serverConfig()
+	addVlcServerConfig()
 
 __version__ = "1.0"

@@ -54,7 +54,7 @@ if pathExists(hddpath):
 	files = listdir(hddpath)
 	for x in files:
 		if pathExists(hddpath + x):
-			screensaverlist += [(hddpath + f'{x}/', _("%s") % (x))]
+			screensaverlist += [(hddpath + '%s/' % (x), _("%s") % (x))]
 config.plugins.mc_ap.whichjpg = ConfigSelection(screensaverlist)
 playlist = []
 radirl = "http://radio.pervii.com/top_radio_"
@@ -461,7 +461,7 @@ class MC_AudioPlayer(Screen, HelpableScreen, InfoBarSeek):
 			return
 		else:
 			self["filelist"].changeDir(jumpto)
-			self["currentfolder"].setText(f"{jumpto}")
+			self["currentfolder"].setText(("%s") % (jumpto))
 
 	def updateFileInfo(self):
 		currPlay = self.session.nav.getCurrentService()
@@ -548,7 +548,7 @@ class MC_AudioPlayer(Screen, HelpableScreen, InfoBarSeek):
 				self.jpgIndex += 1
 			else:
 				self.jpgIndex = 0
-			print(f"MediaCenter: Last JPG Index: {str(self.jpgLastIndex)}")
+			print("MediaCenter: Last JPG Index: %s" % str(self.jpgLastIndex))
 			if self.jpgLastIndex != self.jpgIndex or self.jpgLastIndex == -1:
 				if config.plugins.mc_ap.whichjpg.value == "default":
 					path = mcpath + "saver/" + self.jpgList[self.jpgIndex]
@@ -1323,7 +1323,7 @@ class MC_AudioPlaylist(Screen, InfoBarSeek):
 			for i in listdir(playlistdir):
 				listpath.append((i, playlistdir + i))
 		except OSError as e:
-			print(f"Error while scanning subdirs: {str(e)}")
+			print("Error while scanning subdirs: %s" % str(e))
 		self.session.openWithCallback(self.load_pls, ChoiceBox, title=_("Please select a playlist..."), list=listpath)
 
 	def load_pls(self, path):
@@ -1344,7 +1344,7 @@ class MC_AudioPlaylist(Screen, InfoBarSeek):
 			for i in listdir(playlistdir):
 				listpath.append((i, playlistdir + i))
 		except OSError as e:
-			print(f"Error while scanning subdirs: {str(e)}")
+			print("Error while scanning subdirs: %s" % str(e))
 		self.session.openWithCallback(self.delete_saved_pls, ChoiceBox, title=_("Please select a playlist to delete..."), list=listpath)
 
 	def delete_saved_pls(self, path):
@@ -1496,7 +1496,7 @@ class Lyrics(Screen):
 				titlely = curPlay.info().getName().split('/')[-1]
 			if artistly == "":
 				artistly = titlely
-		url = f"http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist={quote(artistly)}&song={quote(titlely)}"
+		url = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=%s&song=%s" % (quote(artistly), quote(titlely))
 		url = url.replace("%21", "%13")  # . dont ask me why
 		callInThread(self.threadGetPage, url, self.gotLyrics, self.urlError)
 

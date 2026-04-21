@@ -14,10 +14,7 @@ from Screens.MessageBox import MessageBox
 from Screens.HelpMenu import HelpableScreen
 from Screens.InfoBarGenerics import InfoBarSeek, InfoBarNotifications
 from Tools.Directories import resolveFilename, pathExists, SCOPE_MEDIA
-from .__init__ import _  # for localized messages
 
-black = "#00000000"
-lightgreen = "#0038FF48"
 config.plugins.mc_pp = ConfigSubsection()
 config.plugins.mc_pp.slidetime = ConfigInteger(default=10, limits=(5, 60))
 config.plugins.mc_pp.resize = ConfigSelection(default="0", choices=[("0", _("simple")), ("1", _("better"))])
@@ -26,31 +23,26 @@ config.plugins.mc_pp.lastDir = ConfigText(default=resolveFilename(SCOPE_MEDIA))
 config.plugins.mc_pp.rotate = ConfigSelection(default="0", choices=[("0", _("none")), ("1", _("manual")), ("2", _("by Exif"))])
 config.plugins.mc_pp.ThumbWidth = ConfigInteger(default=145, limits=(1, 999))
 config.plugins.mc_pp.ThumbHeight = ConfigInteger(default=120, limits=(1, 999))
-config.plugins.mc_pp.bgcolor = ConfigSelection(default=black, choices=[(black, _("black")), ("#009eb9ff", _("blue")), ("#00ff5a51", _("red")), ("#00ffe875", _("yellow")), (lightgreen, _("green"))])
-config.plugins.mc_pp.textcolor = ConfigSelection(default=lightgreen, choices=[(black, _("black")), ("#009eb9ff", _("blue")), ("#00ff5a51", _("red")), ("#00ffe875", _("yellow")), (lightgreen, _("green"))])
+config.plugins.mc_pp.bgcolor = ConfigSelection(default="#00000000", choices=[("#00000000", _("black")), ("#009eb9ff", _("blue")), ("#00ff5a51", _("red")), ("#00ffe875", _("yellow")), ("#0038FF48", _("green"))])
+config.plugins.mc_pp.textcolor = ConfigSelection(default="#0038FF48", choices=[("#00000000", _("black")), ("#009eb9ff", _("blue")), ("#00ff5a51", _("red")), ("#00ffe875", _("yellow")), ("#0038FF48", _("green"))])
 config.plugins.mc_pp.framesize = ConfigInteger(default=30, limits=(5, 99))
 config.plugins.mc_pp.infoline = ConfigEnableDisable(default=True)
 config.plugins.mc_pp.loop = ConfigEnableDisable(default=True)
 config.plugins.mc_pp.music = ConfigText(default=resolveFilename(SCOPE_MEDIA))
 config.plugins.mc_pp.musicenable = ConfigEnableDisable(default=False)
-
 mcpath = "/usr/lib/enigma2/python/Plugins/Extensions/BMediaCenter/"
-list_top = "List Top"
-list_bottom = "List Bottom"
-list_up = "List up"
-list_down = "List down"
 
 
-def get_aspect():
+def getAspect():
 	val = AVSwitch().getAspectRatioSetting()
 	return val / 2
 
 
-def get_scale():
+def getScale():
 	return (1, 1)
 
 
-class MCPictureViewer(Screen, HelpableScreen):
+class MC_PictureViewer(Screen, HelpableScreen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
@@ -62,35 +54,35 @@ class MCPictureViewer(Screen, HelpableScreen):
 			{
 				"ok": (self.KeyOk, "Show Picture"),
 				"cancel": (self.Exit, "Exit Picture Viewer"),
-				"left": (self.leftUp, list_top),
-				"right": (self.rightDown, list_bottom),
-				"up": (self.up, list_up),
-				"down": (self.down, list_down),
+				"left": (self.leftUp, "List Top"),
+				"right": (self.rightDown, "List Bottom"),
+				"up": (self.up, "List up"),
+				"down": (self.down, "List down"),
 				"info": (self.StartExif, "Show File Info"),
 				"green": (self.startslideshow, "Start Slideshow"),
 				"yellow": (self.StartThumb, "Thumb View"),
 				"blue": (self.Settings, "Settings"),
 			}, -2)
 
-		self.aspect = get_aspect()
-		curr_dir = config.plugins.mc_pp.lastDir.value
-		if not pathExists(curr_dir):
-			curr_dir = "/"
-		self["currentfolder"].setText(str(curr_dir))
-		inhibit_dirs = ["/bin", "/boot", "/dev", "/dev.static", "/etc", "/lib", "/proc", "/ram", "/root", "/sbin", "/sys", "/tmp", "/usr", "/var"]
-		self.filelist = FileList(curr_dir, showDirectories=True, showFiles=True, showMountpoints=True, isTop=False, matchingPattern=r"(?i)^.*\.(jpeg|jpg|jpe|png|bmp)", inhibit_dirs=inhibit_dirs)
+		self.aspect = getAspect()
+		currDir = config.plugins.mc_pp.lastDir.value
+		if not pathExists(currDir):
+			currDir = "/"
+		self["currentfolder"].setText(str(currDir))
+		inhibitDirs = ["/bin", "/boot", "/dev", "/dev.static", "/etc", "/lib", "/proc", "/ram", "/root", "/sbin", "/sys", "/tmp", "/usr", "/var"]
+		self.filelist = FileList(currDir, showDirectories=True, showFiles=True, showMountpoints=True, isTop=False, matchingPattern=r"(?i)^.*\.(jpeg|jpg|jpe|png|bmp)", inhibitDirs=inhibitDirs)
 		self["filelist"] = self.filelist
 		self["filelist"].show()
 		self["thumbnail"] = Pixmap()
 		self.ThumbTimer = eTimer()
-#		self.ThumbTimer.callback.append(self.showThumb)
+		self.ThumbTimer.callback.append(self.showThumb)
 		self.ThumbTimer.start(500, True)
 
 		self.picload = ePicLoad()
 		#self.picload.PictureData.get().append(self.showPic)
 
 	def startslideshow(self):
-		self.session.openWithCallback(self.returnVal, MCPicView, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory(), True)
+		self.session.openWithCallback(self.returnVal, MC_PicView, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory(), True)
 
 	def up(self):
 		self["filelist"].up()
@@ -108,42 +100,42 @@ class MCPictureViewer(Screen, HelpableScreen):
 		self["filelist"].pageDown()
 		self.ThumbTimer.start(500, True)
 
-	def showPic(self, pic_info=""):
+	def showPic(self, picInfo=""):
 		ptr = self.picload.getData()
 		if ptr is not None:
 			self["thumbnail"].instance.setPixmap(ptr.__deref__())
 			self["thumbnail"].show()
 
 	def showThumb(self):
-		return  # TODO
-#		if not self.filelist.canDescent():
-#			if self.picload.getThumbnail(self.filelist.getPath()) == 1:
-#				ptr = self.picload.getData()
-#			else:
-#				ptr = None
-#
-#			#ptr = loadPic(self.filelist.getPath(), 180, 160, self.aspect, int(config.plugins.mc_pp.resize.value), 0, 0, cachefile)
-#			if ptr is not None:
-#				self["thumbnail"].instance.setPixmap(ptr.__deref__())
-#				self["thumbnail"].show()
-#		else:
-#			self["thumbnail"].hide()
+		return
+		if not self.filelist.canDescent():
+			if self.picload.getThumbnail(self.filelist.getPath()) == 1:
+				ptr = self.picload.getData()
+			else:
+				ptr = None
+
+			#ptr = loadPic(self.filelist.getPath(), 180, 160, self.aspect, int(config.plugins.mc_pp.resize.value), 0, 0, cachefile)
+			if ptr is not None:
+				self["thumbnail"].instance.setPixmap(ptr.__deref__())
+				self["thumbnail"].show()
+		else:
+			self["thumbnail"].hide()
 
 	def KeyOk(self):
 		if self.filelist.canDescent():
 			self.filelist.descent()
 		else:
-			self.session.openWithCallback(self.returnVal, MCPicView, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory(), False)
+			self.session.openWithCallback(self.returnVal, MC_PicView, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory(), False)
 
 	def StartThumb(self):
-		self.session.openWithCallback(self.returnVal, MCPicThumbViewer, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory())
+		self.session.openWithCallback(self.returnVal, MC_PicThumbViewer, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory())
 
 	def JumpToFolder(self, jumpto=None):
 		if jumpto is None:
 			return
 		else:
 			self["filelist"].changeDir(jumpto)
-			self["currentfolder"].setText(f"{jumpto}")
+			self["currentfolder"].setText(("%s") % (jumpto))
 
 	def returnVal(self, val=0):
 		if val > 0:
@@ -176,7 +168,7 @@ T_NAME = 3
 T_FULL = 4
 
 
-class MCPicThumbViewer(Screen, HelpableScreen):
+class MC_PicThumbViewer(Screen, HelpableScreen):
 	def __init__(self, session, piclist, lastindex, path):
 		self["key_red"] = Button("")
 		self["key_green"] = Button("Slide Show")
@@ -202,46 +194,47 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 			self.spaceLeft = 25
 			self.ButtonPosY = 72
 
-		thumbsx = int(size_w / (self.spaceX + self.picX))  # thumbnails in X
-		thumbsy = size_h / (self.spaceY + self.picY)  # thumbnails in Y
-		self.thumbsx = int(thumbsx)  # thumbnails in X
-		self.thumbsC = int(thumbsx * thumbsy)  # all thumbnails
+		thumbsX = int(size_w / (self.spaceX + self.picX))  # thumbnails in X
+		self.thumbsY = size_h / (self.spaceY + self.picY)  # thumbnails in Y
+		self.thumbsX = int(thumbsX)  # thumbnails in X
+		self.thumbsC = int(thumbsX * self.thumbsY)  # all thumbnails
 		self.positionlist = []
 		skincontent = ""
 
-		posx = -1
+		posX = -1
 		for x in range(self.thumbsC):
-			posy = int(x / self.thumbsx)
-			posx += 1
-			if posx >= self.thumbsx:
-				posx = 0
-			absx = self.spaceLeft + self.spaceX + (posx * (self.spaceX + self.picX))
-			absy = self.spaceTop + self.spaceY + (posy * (self.spaceY + self.picY))
-			self.positionlist.append((absx, absy))
-			skincontent += "<widget name=\"label" + str(x) + "\" position=\"" + str(absx + 5) + "," + str(absy + self.picY - textsize) + "\" size=\"" + str(self.picX - 10) + "," + str(textsize) + "\" font=\"Regular;14\" zPosition=\"2\" transparent=\"1\" noWrap=\"1\" foregroundColor=\"" + self.textcolor + "\" />"
-			skincontent += "<widget name=\"thumb" + str(x) + "\" position=\"" + str(absx + 5) + "," + str(absy + 5) + "\" size=\"" + str(self.picX - 10) + "," + str(self.picY - (textsize * 2)) + "\" zPosition=\"2\" transparent=\"1\" alphatest=\"on\" />"
+			posY = int(x / self.thumbsX)
+			posX += 1
+			if posX >= self.thumbsX:
+				posX = 0
+			absX = self.spaceLeft + self.spaceX + (posX * (self.spaceX + self.picX))
+			absY = self.spaceTop + self.spaceY + (posY * (self.spaceY + self.picY))
+			self.positionlist.append((absX, absY))
+			skincontent += "<widget name=\"label" + str(x) + "\" position=\"" + str(absX + 5) + "," + str(absY + self.picY - textsize) + "\" size=\"" + str(self.picX - 10) + "," + str(textsize) + "\" font=\"Regular;14\" zPosition=\"2\" transparent=\"1\" noWrap=\"1\" foregroundColor=\"" + self.textcolor + "\" />"
+			skincontent += "<widget name=\"thumb" + str(x) + "\" position=\"" + str(absX + 5) + "," + str(absY + 5) + "\" size=\"" + str(self.picX - 10) + "," + str(self.picY - (textsize * 2)) + "\" zPosition=\"2\" transparent=\"1\" alphatest=\"on\" />"
 		# Screen, buttons, backgroundlabel and MovingPixmap
 		self.skin = "<screen position=\"0,0\" size=\"" + str(size_w) + "," + str(size_h) + "\" flags=\"wfNoBorder\" > \
-						<ePixmap name=\"mb_bg\" position=\"0,0\" zPosition=\"1\" size=\"" + str(size_w) + "," + str(size_h) + "\" pixmap=\"" + mcpath + "skins/defaultHD/images/background.png\" scale=\"1\" /> \
-						<ePixmap pixmap=\"" + mcpath + "icons/key_red.png\" position=\"60," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
-						<ePixmap pixmap=\"" + mcpath + "icons/key_green.png\" position=\"260," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
-						<ePixmap pixmap=\"" + mcpath + "icons/key_yellow.png\" position=\"460," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
-						<ePixmap pixmap=\"" + mcpath + "icons/key_blue.png\" position=\"660," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
-						<widget name=\"key_red\" position=\"100," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,40\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
-						<widget name=\"key_green\" position=\"270," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,35\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
-						<widget name=\"key_yellow\" position=\"460," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,35\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
-						<widget name=\"key_blue\" position=\"680," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,35\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
-						<eLabel position=\"0,0\" zPosition=\"0\" size=\"" + str(size_w) + "," + str(size_h) + "\" backgroundColor=\"" + self.color + "\" /> \
-						<widget name=\"frame\" position=\"30,25\" size=\"" + str(self.picX + 1) + "," + str(self.picY + 10) + "\" pixmap=\"" + mcpath + "icons/pic_frame.png\" zPosition=\"3\" alphatest=\"on\" scale=\"1\" />" + skincontent + "</screen>"
+			<ePixmap name=\"mb_bg\" position=\"0,0\" zPosition=\"1\" size=\"" + str(size_w) + "," + str(size_h) + "\" pixmap=\"" + mcpath + "skins/defaultHD/images/background.png\" scale=\"1\" /> \
+			<ePixmap pixmap=\"" + mcpath + "icons/key_red.png\" position=\"60," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
+			<ePixmap pixmap=\"" + mcpath + "icons/key_green.png\" position=\"260," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
+			<ePixmap pixmap=\"" + mcpath + "icons/key_yellow.png\" position=\"460," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
+			<ePixmap pixmap=\"" + mcpath + "icons/key_blue.png\" position=\"660," + str(self.ButtonPosY) + "\" zPosition=\"2\" size=\"35,35\" transparent=\"1\" alphatest=\"on\" scale=\"1\" /> \
+			<widget name=\"key_red\" position=\"100," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,40\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
+			<widget name=\"key_green\" position=\"270," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,35\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
+			<widget name=\"key_yellow\" position=\"460," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,35\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
+			<widget name=\"key_blue\" position=\"680," + str(self.ButtonPosY) + "\" zPosition=\"3\" size=\"180,35\" font=\"Regular;20\" valign=\"center\" halign=\"center\" backgroundColor=\"#000000\" transparent=\"1\" /> \
+			<eLabel position=\"0,0\" zPosition=\"0\" size=\"" + str(size_w) + "," + str(size_h) + "\" backgroundColor=\"" + self.color + "\" /> \
+			<widget name=\"frame\" position=\"30,25\" size=\"" + str(self.picX + 1) + "," + str(self.picY + 10) + "\" pixmap=\"" + mcpath + "icons/pic_frame.png\" zPosition=\"3\" alphatest=\"on\" scale=\"1\" />" + skincontent + "</screen>"
 		Screen.__init__(self, session)
+
 		self["actions"] = HelpableActionMap(self, "MC_PictureViewerActions",
 		{
 			"ok": (self.KeyOk, "Show Picture"),
 			"cancel": (self.Exit, "Exit Picture Viewer"),
-			"left": (self.key_left, list_top),
-			"right": (self.key_right, list_bottom),
-			"up": (self.key_up, list_up),
-			"down": (self.key_down, list_down),
+			"left": (self.key_left, "List Top"),
+			"right": (self.key_right, "List Bottom"),
+			"up": (self.key_up, "List up"),
+			"down": (self.key_down, "List down"),
 			"info": (self.StartExif, "Show File Info"),
 			"green": (self.startslideshow, "Start Slideshow"),
 			"yellow": (self.close, "File View"),
@@ -257,16 +250,16 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 		self.dirlistcount = 0
 		self.path = path
 		index = 0
-		frame_pos = 0
-		page = 0
+		framePos = 0
+		Page = 0
 		for x in piclist:
 			if x[0][1] is False:
-				self.filelist.append((index, frame_pos, page, x[0][4], x[0][0]))
+				self.filelist.append((index, framePos, Page, x[0][4], x[0][0]))
 				index += 1
-				frame_pos += 1
-				if frame_pos > (self.thumbsC - 1):
-					frame_pos = 0
-					page += 1
+				framePos += 1
+				if framePos > (self.thumbsC - 1):
+					framePos = 0
+					Page += 1
 			else:
 				self.dirlistcount += 1
 
@@ -282,7 +275,7 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 		self.ThumbTimer.callback.append(self.showPic)
 
 	def setPicloadConf(self):
-		sc = get_scale()
+		sc = getScale()
 		self.picload.setPara([self["thumb0"].instance.size().width(), self["thumb0"].instance.size().height(), sc[0], sc[1], config.plugins.mc_pp.cache.value, int(config.plugins.mc_pp.resize.value), self.color])
 		self.paintFrame()
 
@@ -312,7 +305,7 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 		#paint Thumbnail start
 		self.showPic()
 
-	def showPic(self, pic_info=""):
+	def showPic(self, picInfo=""):
 		for x in range(len(self.Thumbnaillist)):
 			if self.Thumbnaillist[x][0] == 0:
 				if self.picload.getThumbnail(self.Thumbnaillist[x][2]) == 1:  # zu tun probier noch mal
@@ -340,13 +333,13 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 		self.paintFrame()
 
 	def key_up(self):
-		self.index -= self.thumbsx
+		self.index -= self.thumbsX
 		if self.index < 0:
 			self.index = self.maxentry
 		self.paintFrame()
 
 	def key_down(self):
-		self.index += self.thumbsx
+		self.index += self.thumbsX
 		if self.index > self.maxentry:
 			self.index = 0
 		self.paintFrame()
@@ -360,12 +353,12 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 		if self.maxentry < 0:
 			return
 		self.old_index = self.index
-		self.session.openWithCallback(self.callbackView, MCPicView, self.filelist, self.index, self.path, False)
+		self.session.openWithCallback(self.callbackView, MC_PicView, self.filelist, self.index, self.path, False)
 
 	def startslideshow(self):
 		if self.maxentry < 0:
 			return
-		self.session.openWithCallback(self.callbackView, MCPicView, self.filelist, self.index, self.path, True)
+		self.session.openWithCallback(self.callbackView, MC_PicView, self.filelist, self.index, self.path, True)
 
 	def Settings(self):
 		self.session.open(MC_PicSetup)
@@ -381,7 +374,7 @@ class MCPicThumbViewer(Screen, HelpableScreen):
 #-------------------------------------------------------#
 
 
-class MCPicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, HelpableScreen):
+class MC_PicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, HelpableScreen):
 	def __init__(self, session, filelist, index, path, startslide):
 		self.textcolor = config.plugins.mc_pp.textcolor.value
 		self.bgcolor = config.plugins.mc_pp.bgcolor.value
@@ -393,8 +386,8 @@ class MCPicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, Helpable
 			<eLabel position=\"0,0\" zPosition=\"0\" size=\"" + str(size_w) + "," + str(size_h) + "\" backgroundColor=\"" + self.bgcolor + "\" /><widget name=\"pic\" position=\"" + str(space) + "," + str(space) + "\" size=\"" + str(size_w - (space * 2)) + "," + str(size_h - (space * 2)) + "\" zPosition=\"1\" alphatest=\"on\" /> \
 			<widget name=\"point\" position=\"" + str(space + 30) + "," + str(space + 5) + "\" size=\"24,15\" zPosition=\"3\"  pixmap=\"" + mcpath + "icons/BlinkingPoint-fs8.png\" alphatest=\"on\" scale=\"1\" /> \
 			<widget name=\"play_icon\" position=\"" + str(space + 25) + "," + str(space + 2) + "\" size=\"24,24\" zPosition=\"2\" pixmap=\"" + mcpath + "icons/ico_mp_play.png\"  alphatest=\"on\" scale=\"1\" /> \
-			<ePixmap name=\"info\" position=\"e-80,e-60\" zPosition=\"6\" size=\"60,36\" pixmap=\"" + mcpath + "icons/key_info.png\" scale=\"1\" /> \
-			<ePixmap name=\"bg_file\" position=\"50,15\" zPosition=\"1\" size=\"600,50\"  pixmap=\"" + mcpath + "skins/defaultHD/images/BG_file.png\" alphatest=\"on\" scale=\"1\" /> \
+            <ePixmap name=\"info\" position=\"e-80,e-60\" zPosition=\"6\" size=\"60,36\" pixmap=\"" + mcpath + "icons/key_info.png\" scale=\"1\" /> \
+            <ePixmap name=\"bg_file\" position=\"50,15\" zPosition=\"1\" size=\"600,50\"  pixmap=\"" + mcpath + "skins/defaultHD/images/BG_file.png\" alphatest=\"on\" scale=\"1\" /> \
 			<widget name=\"file\" position=\"" + str(space + 65) + "," + str(space) + "\" size=\"" + str(size_w - (space * 2) - 50) + ",25\" font=\"Regular;20\" halign=\"left\" foregroundColor=\"" + self.textcolor + "\" zPosition=\"2\" noWrap=\"1\" transparent=\"1\" /></screen>"
 
 		Screen.__init__(self, session)
@@ -445,7 +438,9 @@ class MCPicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, Helpable
 
 		if self.maxentry >= 0:
 			self.onLayoutFinish.append(self.setPicloadConf)
-		self.__event_tracker = ServiceEventTracker(screen=self, eventmap={iPlayableService.evEOF: self.doEOF})
+		self.__event_tracker = ServiceEventTracker(screen=self, eventmap={
+				iPlayableService.evEOF: self.doEOF,
+			})
 		if startslide is True:
 			self.PlayPause()
 			if config.plugins.mc_pp.musicenable.value is True and config.plugins.mc_pp.music.value != "none":
@@ -453,7 +448,7 @@ class MCPicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, Helpable
 					self.session.nav.playService(eServiceReference(4097, 0, config.plugins.mc_pp.music.value))
 
 	def setPicloadConf(self):
-		sc = get_scale()
+		sc = getScale()
 		self.picload.setPara([self["pic"].instance.size().width(), self["pic"].instance.size().height(), sc[0], sc[1], 0, int(config.plugins.mc_pp.resize.value), self.bgcolor])
 		self["play_icon"].hide()
 		if config.plugins.mc_pp.infoline.value is False:
@@ -465,14 +460,14 @@ class MCPicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, Helpable
 
 	def updatedSeekState(self):
 		return  # TODO
-#		if self.seekstate == self.SEEK_STATE_PAUSE:
-#			self.playlist.pauseFile()
-#		elif self.seekstate == self.SEEK_STATE_PLAY:
-#			self.playlist.playFile()
-#		elif self.isStateForward(self.seekstate):
-#			self.playlist.forwardFile()
-#		elif self.isStateBackward(self.seekstate):
-#			self.playlist.rewindFile()
+		if self.seekstate == self.SEEK_STATE_PAUSE:
+			self.playlist.pauseFile()
+		elif self.seekstate == self.SEEK_STATE_PLAY:
+			self.playlist.playFile()
+		elif self.isStateForward(self.seekstate):
+			self.playlist.forwardFile()
+		elif self.isStateBackward(self.seekstate):
+			self.playlist.rewindFile()
 
 	def doEOF(self):
 		self.session.nav.stopService()
@@ -490,13 +485,13 @@ class MCPicView(Screen, InfoBarBase, InfoBarSeek, InfoBarNotifications, Helpable
 			self.next()
 			self.start_decode()
 
-	def finish_decode(self, pic_info=""):
+	def finish_decode(self, picInfo=""):
 		self["point"].hide()
 		ptr = self.picload.getData()
 		if ptr is not None:
 			text = ""
 			try:
-				text = pic_info.split('\n', 1)
+				text = picInfo.split('\n', 1)
 				text = "(" + str(self.index + 1) + "/" + str(self.maxentry + 1) + ") " + text[0].split('/')[-1]
 			except Exception:
 				pass
@@ -605,23 +600,23 @@ class Selectmusic(Screen):
 		self["actions"] = HelpableActionMap(self, "MC_AudioPlayerActions",
 			{
 				"ok": (self.KeyOk, "Play selected file"),
-				"left": (self.leftUp, list_top),
-				"right": (self.rightDown, list_bottom),
-				"up": (self.up, list_up),
-				"down": (self.down, list_down),
+				"left": (self.leftUp, "List Top"),
+				"right": (self.rightDown, "List Bottom"),
+				"up": (self.up, "List up"),
+				"down": (self.down, "List down"),
 			}, -2)
 		self["OkCancelActions"] = HelpableActionMap(self, "OkCancelActions",
 			{
 				"cancel": self.close
 			}, -2)
-		curr_dir = config.plugins.mc_ap.lastDir.value
-		if not pathExists(curr_dir):
-			curr_dir = "/"
-		inhibit_dirs = ["/bin", "/boot", "/dev", "/dev.static", "/etc", "/lib", "/proc", "/ram", "/root", "/sbin", "/sys", "/tmp", "/usr", "/var"]
-		self.filelist = FileList(curr_dir, useServiceRef=True, showDirectories=True, showFiles=True, matchingPattern=r"(?i)^.*\.(m3u|mp2|mp3|wav|wave|pls|wma|m4a|ogg|ra|flac)", inhibit_dirs=inhibit_dirs)
+		currDir = config.plugins.mc_ap.lastDir.value
+		if not pathExists(currDir):
+			currDir = "/"
+		inhibitDirs = ["/bin", "/boot", "/dev", "/dev.static", "/etc", "/lib", "/proc", "/ram", "/root", "/sbin", "/sys", "/tmp", "/usr", "/var"]
+		self.filelist = FileList(currDir, useServiceRef=True, showDirectories=True, showFiles=True, matchingPattern=r"(?i)^.*\.(m3u|mp2|mp3|wav|wave|pls|wma|m4a|ogg|ra|flac)", inhibitDirs=inhibitDirs)
 		self["filelist"] = self.filelist
 		self["currentfolder"] = Label()
-		self["currentfolder"].setText(str(curr_dir))
+		self["currentfolder"].setText(str(currDir))
 
 	def up(self):
 		self["filelist"].up()

@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from os import mkdir, system
 from skin import loadSkin
 from Components.ActionMap import ActionMap
@@ -11,7 +12,7 @@ from Screens.MessageBox import MessageBox
 from Tools.Directories import pathExists, fileExists
 
 from .MC_VideoPlayer import MC_VideoPlayer
-from .MC_PictureViewer import MCPictureViewer
+from .MC_PictureViewer import MC_PictureViewer
 from .MC_AudioPlayer import MC_AudioPlayer, MC_WebRadio
 from .MC_VLCPlayer import MC_VLCServerlist
 from .MC_Settings import MC_Settings
@@ -63,13 +64,13 @@ class DMC_MainMenu(Screen):
 		self.session.nav.stopService()
 		# Disable OSD Transparency
 		try:
-			self.can_osd_alpha = open("/proc/stb/video/alpha") and True or False
+			self.can_osd_alpha = open("/proc/stb/video/alpha", "r") and True or False
 		except Exception:
 			self.can_osd_alpha = False
 		if self.can_osd_alpha:
-			open("/proc/stb/video/alpha", "w").write("255")
+			open("/proc/stb/video/alpha", "w").write(str("255"))
 		try:
-			open("/proc/sys/vm/drop_caches", "w").write("3")
+			open("/proc/sys/vm/drop_caches", "w").write(str("3"))
 		except OSError:
 			pass
 		menulist = []
@@ -112,9 +113,9 @@ class DMC_MainMenu(Screen):
 #		menus = ["Settings", "Music", "Video", "DVD", "Picture", "Radio", "VLC", "Settings", "Music"]
 		idx = self["menu"].getIndex()
 		print(idx)
-		self["middle"].instance.setPixmapFromFile(mcpath + f"MenuIcon{menus[idx + 1]}.png")
-		self["left"].instance.setPixmapFromFile(mcpath + f"MenuIcon{menus[idx]}sw.png")
-		self["right"].instance.setPixmapFromFile(mcpath + f"MenuIcon{menus[idx + 2]}sw.png")
+		self["middle"].instance.setPixmapFromFile(mcpath + "MenuIcon%s.png" % menus[idx + 1])
+		self["left"].instance.setPixmapFromFile(mcpath + "MenuIcon%ssw.png" % menus[idx])
+		self["right"].instance.setPixmapFromFile(mcpath + "MenuIcon%ssw.png" % menus[idx + 2])
 		self["text"].setText(self["menu"].getCurrent()[0])
 
 	def okbuttonClick(self):
@@ -128,7 +129,7 @@ class DMC_MainMenu(Screen):
 				else:
 					self.session.open(MessageBox, "Error: DVD-Player Plugin not installed ...", MessageBox.TYPE_INFO)
 			elif selection[1] == "MC_PictureViewer":
-				self.session.open(MCPictureViewer)
+				self.session.open(MC_PictureViewer)
 			elif selection[1] == "MC_AudioPlayer":
 				self.session.open(MC_AudioPlayer)
 			elif selection[1] == "MC_WebRadio":
@@ -141,16 +142,16 @@ class DMC_MainMenu(Screen):
 			elif selection[1] == "MC_Settings":
 				self.session.open(MC_Settings)
 			else:
-				self.session.open(MessageBox, (f"Error: Could not find plugin {selection[1]}\ncoming soon ... :)"), MessageBox.TYPE_INFO)
+				self.session.open(MessageBox, ("Error: Could not find plugin %s\ncoming soon ... :)") % (selection[1]), MessageBox.TYPE_INFO)
 
 	def error(self, error):
-		self.session.open(MessageBox, (f"UNEXPECTED ERROR:\n{error}"), MessageBox.TYPE_INFO)
+		self.session.open(MessageBox, ("UNEXPECTED ERROR:\n%s") % (error), MessageBox.TYPE_INFO)
 
 	def Exit(self):
 #		self.session.nav.stopService()
 		# Restore OSD Transparency Settings
 		try:
-			open("/proc/sys/vm/drop_caches", "w").write("3")
+			open("/proc/sys/vm/drop_caches", "w").write(str("3"))
 		except OSError:
 			pass
 		if self.can_osd_alpha:
